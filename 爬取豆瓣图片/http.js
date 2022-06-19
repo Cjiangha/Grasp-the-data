@@ -19,9 +19,13 @@ https.get(url, (res) => {
         $('.mod-bd img').each(function (index, item) {
             //获取图片属性
             var imgName = $(this).parent().parent().next().eq(0).text().trim();
+            // 把字符中的 ... 去掉
+            var reg2 = new RegExp('.','ig');//找到全部的fuck，并忽略大小写
+            var str4 = imgName.replace(reg2,'***');
             var imgfile = imgName + '.jpg';
+            console.log('imgfile',imgfile)
             var imgSrc = $(this).attr('src')
-            console.log(imgfile, imgSrc)
+            // console.log('--我是http哇~~~~~~  --', imgfile, imgSrc)
             //采用request模块，向服务器发起请求 获取图片资源
             request.head(imgSrc, function (error, res, body) {
                 if (error) {
@@ -29,7 +33,14 @@ https.get(url, (res) => {
                 }
             });
             //通过管道的方式用fs模块将图片写到本地的images文件下
-            request(imgSrc).pipe(fs.createWriteStream('./images2/' + imgfile));
+            // request(imgSrc).pipe(fs.createWriteStream('./images2/' + imgfile));
+            request
+                .get(imgSrc)
+                .on('response', function (response) {
+                    // console.log(response)
+                    // console.log(response.statusCode) // 200
+                    // console.log(response.headers['content-type']) // 'image/png'
+                })
         })
     });
 
