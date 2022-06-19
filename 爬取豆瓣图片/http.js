@@ -33,14 +33,14 @@ https.get(url, (res) => {
                 }
             });
             //通过管道的方式用fs模块将图片写到本地的images文件下
-            // request(imgSrc).pipe(fs.createWriteStream('./images2/' + imgfile));
-            request
-                .get(imgSrc)
-                .on('response', function (response) {
-                    // console.log(response)
-                    // console.log(response.statusCode) // 200
-                    // console.log(response.headers['content-type']) // 'image/png'
-                })
+            request(imgSrc).pipe(fs.createWriteStream('./images2/' + imgfile));
+            // request
+            //     .get(imgSrc)
+            //     .on('response', function (response) {
+            //         // console.log(response)
+            //         // console.log(response.statusCode) // 200
+            //         // console.log(response.headers['content-type']) // 'image/png'
+            //     })
         })
     });
 
